@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
     public bool isHoldingJump = false;
     public float maxHoldJumpTime = 0.4f;
+    public float maxMaxHoldJumpTime = 0.4f;
     public float holdJumpTimer = 0.0f;
 
     public float jumpGroundThreshold = 1;
@@ -98,6 +99,7 @@ public class Player : MonoBehaviour
         {
             float velocityRatio = velocity.x / maxXVelocity;
             acceleration = maxAcceleration * (1 - velocityRatio);
+            maxHoldJumpTime = maxMaxHoldJumpTime * velocityRatio;
 
             velocity.x += acceleration * Time.fixedDeltaTime;
             if (velocity.x >= maxXVelocity)
@@ -119,7 +121,37 @@ public class Player : MonoBehaviour
         }
 
 
+
+        Vector2 obstRayOrigin = new Vector2(pos.x, pos.y);
+        RaycastHit2D obstForwardHit = Physics2D.Raycast(obstRayOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime);
+        if (obstForwardHit.collider != null)
+        {
+            Obstacle obstacle = obstForwardHit.collider.GetComponent<Obstacle>();
+            if (obstacle != null)
+            {
+                hitObstacle(obstacle);
+            }
+        }
+        RaycastHit2D obstDownHit = Physics2D.Raycast(obstRayOrigin, Vector2.up, velocity.y * Time.fixedDeltaTime);
+        if (obstDownHit.collider != null)
+        {
+            Obstacle obstacle = obstDownHit.collider.GetComponent<Obstacle>();
+            if (obstacle != null)
+            {
+                hitObstacle(obstacle);
+            }
+        }
+
+
+
         transform.position = pos;
     }
 
+    void hitObstacle(Obstacle obst)
+    {
+        Destroy(obst.gameObject);
+        velocity.x *= 0.7f;
+    }
+
 }
+
