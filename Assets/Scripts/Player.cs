@@ -30,9 +30,12 @@ public class Player : MonoBehaviour
     GroundFall fall;
     CameraController cameraController;
 
+    Animator animator;
+
     void Start()
     {
         cameraController = Camera.main.GetComponent<CameraController>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -48,6 +51,7 @@ public class Player : MonoBehaviour
                 velocity.y = jumpVelocity;
                 isHoldingJump = true;
                 holdJumpTimer = 0;
+                animator.SetBool("isJumping", true);
 
                 if (fall != null)
                 {
@@ -69,6 +73,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        animator.SetFloat("yVelocity", velocity.y);
+
         if (isDead)
         {
             return;
@@ -106,6 +112,7 @@ public class Player : MonoBehaviour
             RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, groundLayerMask);
             if (hit2D.collider != null)
             {
+                animator.SetBool("isJumping", false);
                 Ground ground = hit2D.collider.GetComponent<Ground>();
                 if (ground != null)
                 {
