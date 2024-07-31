@@ -28,10 +28,11 @@ public class Player : MonoBehaviour
     public LayerMask obstacleLayerMask;
 
     GroundFall fall;
+    CameraController cameraController;
 
     void Start()
     {
-
+        cameraController = Camera.main.GetComponent<CameraController>();
     }
 
     void Update()
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
                 {
                     fall.player = null;
                     fall = null;
+                    cameraController.StopShaking();
                 }
             }
         }
@@ -119,6 +121,7 @@ public class Player : MonoBehaviour
                     if (fall != null)
                     {
                         fall.player = this;
+                        cameraController.StartShaking();
                     }
                 }
             }
