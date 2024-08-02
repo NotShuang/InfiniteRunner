@@ -50,3 +50,6 @@ TagManager:
   - name: Star
     uniqueID: 168950169
     locked: 0
+  - name: Dust
+    uniqueID: 228478881
+    locked: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Renderer rend;
 
     public float gravity;
     public Vector2 velocity;
@@ -36,10 +37,38 @@ public class Player : MonoBehaviour
     {
         cameraController = Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
+        rend = GameObject.Find("Fog").GetComponent<Renderer>();
     }
 
     void Update()
     {
+
+        if(distance >= 100)
+        {
+            rend.material.SetFloat("_FogSize", 10);
+        }
+
+        if (distance >= 250)
+        {
+            rend.material.SetFloat("_FogSize", 13);
+        }
+
+        if (distance >= 400)
+        {
+            rend.material.SetFloat("_FogSize", 18);
+        }
+
+        if (distance >= 700)
+        {
+            rend.material.SetFloat("_FogSize", 20);
+        }
+
+        if (distance >= 1000)
+        {
+            rend.material.SetFloat("_FogSize", 25);
+        }
+
+
         Vector2 pos = transform.position;
         float groundDistance = Mathf.Abs(pos.y - groundHeight);
 
@@ -213,6 +242,9 @@ public class Player : MonoBehaviour
         Destroy(obstacle.gameObject);
         velocity.x *= 0.7f;
     }
-
+    public float findDistance()
+    {
+        return distance;
+    }
 }
 
