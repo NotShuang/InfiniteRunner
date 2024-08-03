@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public AudioSource jump;
     public AudioSource land;
     public AudioSource run;
+    public AudioSource death;
 
     private Renderer rend;
 
@@ -114,6 +115,7 @@ public class Player : MonoBehaviour
 
         if (isDead)
         {
+            death.Play();
             return;
         }
 
@@ -168,6 +170,7 @@ public class Player : MonoBehaviour
                     {
                         fall.player = this;
                         cameraController.StartShaking();
+                        run.Play();
                     }
                 }
             }
@@ -182,7 +185,7 @@ public class Player : MonoBehaviour
                 Ground ground = wallHit.collider.GetComponent<Ground>();
                 if (ground != null)
                 {
-                    run.Play();
+                    
                     if (pos.y < ground.groundHeight)
                     {
                         velocity.x = 0;
