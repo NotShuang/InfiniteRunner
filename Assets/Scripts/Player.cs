@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Renderer rend;
+    public AudioSource jump;
+    public AudioSource land;
+    public AudioSource run;
+
+    private Renderer rend;
 
     public float gravity;
     public Vector2 velocity;
@@ -27,6 +31,8 @@ public class Player : MonoBehaviour
 
     public LayerMask groundLayerMask;
     public LayerMask obstacleLayerMask;
+
+
 
     GroundFall fall;
     CameraController cameraController;
@@ -74,8 +80,10 @@ public class Player : MonoBehaviour
 
         if (isGrounded || groundDistance <= jumpGroundThreshold)
         {
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                jump.Play();
                 isGrounded = false;
                 velocity.y = jumpVelocity;
                 isHoldingJump = true;
@@ -141,6 +149,7 @@ public class Player : MonoBehaviour
             RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, groundLayerMask);
             if (hit2D.collider != null)
             {
+                land.Play();
                 animator.SetBool("isJumping", false);
                 Ground ground = hit2D.collider.GetComponent<Ground>();
                 if (ground != null)
@@ -151,6 +160,7 @@ public class Player : MonoBehaviour
                         pos.y = groundHeight;
                         velocity.y = 0;
                         isGrounded = true;
+
                     }
 
                     fall = ground.GetComponent<GroundFall>();
@@ -172,6 +182,7 @@ public class Player : MonoBehaviour
                 Ground ground = wallHit.collider.GetComponent<Ground>();
                 if (ground != null)
                 {
+                    run.Play();
                     if (pos.y < ground.groundHeight)
                     {
                         velocity.x = 0;
