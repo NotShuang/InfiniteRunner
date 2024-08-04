@@ -26,4 +26,9 @@ public class UIControllerTitle : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void CreditScene()
+    {
+        SceneManager.LoadScene("Credit");
+    }
 }
