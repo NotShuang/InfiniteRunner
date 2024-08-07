@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
         if (isGrounded || groundDistance <= jumpGroundThreshold)
         {
             
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
                 jump.Play();
                 isGrounded = false;
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
         {
             isHoldingJump = false;
         }
